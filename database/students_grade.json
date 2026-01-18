@@ -1,0 +1,28 @@
+{
+  "subjects": {
+    "1": "matematika",
+    "2": "ona tili",
+    "3": "tarix"
+  },
+
+  "students": {
+    "1": {
+      "name": "Saidazimxon Ismoilov",
+      "birthday": "19.03.2007",
+      "grades": {
+        "1": 2,
+        "2": 5,
+        "3": 0
+      }
+    },
+    "2": {
+      "name": "Ali Valiyev",
+      "birthday": "12.04.2007",
+      "grades": {
+        "1": 5,
+        "2": 5,
+        "3": 5
+      }
+    }
+  }
+}

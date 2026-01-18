@@ -1,0 +1,34 @@
+{
+  "extra_classes": {
+    "1111": {
+      "name": "Saidazimxon Ismoilov",
+      "subject_name": "MATH",
+      "time": "9:00",
+      "days": [
+        "Tuesday",
+        "Thursday",
+        "Saturday"
+      ]
+    },
+    "2222": {
+      "name": "Ali Valiyev",
+      "subject_name": "HISTORY",
+      "time": "13:00",
+      "days": [
+        "Tuesday",
+        "Thursday",
+        "Saturday"
+      ]
+    },
+    "3333": {
+      "name": "Nosirjonov Nurbek",
+      "subject_name": "ENGLISH",
+      "time": "15:00",
+      "days": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ]
+    }
+  }
+}
