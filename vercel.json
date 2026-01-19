@@ -3,6 +3,9 @@
   "public": true,
   "name": "kundalik-online",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/frontend/$1" }
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
+    }
   ]
 }
