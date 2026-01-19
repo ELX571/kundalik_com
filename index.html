@@ -4,23 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kundalik | Premium Education Platform</title>
+    <title>kundalik_com | Powered by ELX</title>
     <meta name="description"
-        content="Kundalik.exl - Zamonaviy va premium darajadagi ta'lim platformasi. O-quvchilar, o'qituvchilar va adminlar uchun qulay panel.">
-    <meta name="keywords" content="kundalik, maktab, ta'lim, online kundalik, o'quvchi portali">
-    <meta name="author" content="Saidazimxon Ismoilov">
+        content="kundalik_com - ELX mahsuloti. Zamonaviy va premium darajadagi ta'lim platformasi.">
+    <meta name="keywords" content="kundalik, elx, ta'lim, online kundalik, o'quvchi portali">
+    <meta name="author" content="ELX | Saidazimxon Ismoilov">
 
     <!-- Open Graph / Facebook / Telegram -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kundalik-exl.vercel.app/">
-    <meta property="og:title" content="Kundalik | Premium Education Platform">
-    <meta property="og:description" content="Zamonaviy va premium darajadagi ta'lim platformasi.">
+    <meta property="og:title" content="kundalik_com | Powered by ELX">
+    <meta property="og:description" content="ELX tomonidan taqdim etilgan zamonaviy ta'lim platformasi.">
     <meta property="og:image" content="logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Kundalik | Premium Education Platform">
-    <meta property="twitter:description" content="Zamonaviy va premium darajadagi ta'lim platformasi.">
+    <meta property="twitter:title" content="kundalik_com | Powered by ELX">
+    <meta property="twitter:description" content="ELX tomonidan taqdim etilgan zamonaviy ta'lim platformasi.">
     <meta property="twitter:image" content="logo.png">
 
     <link rel="stylesheet" href="style.css">
@@ -36,7 +36,10 @@
         <div class="nav-container">
             <div class="logo-container">
                 <img src="logo.png" alt="Logo" class="brand-logo">
-                <div class="logo">kundalik<span>.exl</span></div>
+                <div class="logo-wrapper">
+                    <div class="logo">kundalik<span>_com</span></div>
+                    <div class="powered-by">Powered by ELX</div>
+                </div>
             </div>
             <div class="nav-actions">
                 <a id="logout-btn" class="logout-link" style="display: none;">Chiqish</a>
@@ -131,8 +134,9 @@
             </div>
 
             <!-- Student Data Display -->
-            <div id="student-data-display" class="users-display" style="display: none;">
-                <div id="student-data-content"></div>
+            <div id="student-data-display" class="users-display student-data-theme" style="display: none;">
+                <h2 id="student-data-title">--- Student Data ---</h2>
+                <div id="student-data-content" class="terminal-list-container"></div>
             </div>
         </section>
 
@@ -175,8 +179,9 @@
             </div>
 
             <!-- Teacher Data Display -->
-            <div id="teacher-data-display" class="users-display" style="display: none;">
-                <div id="teacher-data-content"></div>
+            <div id="teacher-data-display" class="users-display teacher-data-theme" style="display: none;">
+                <h2 id="teacher-data-title">--- Teacher Data ---</h2>
+                <div id="teacher-data-content" class="terminal-list-container"></div>
             </div>
         </section>
 
@@ -218,9 +223,9 @@
             </div>
 
             <!-- Users List (for command 3) -->
-            <div id="users-display" class="users-display" style="display: none;">
-                <h2>--- Barcha Foydalanuvchilar ---</h2>
-                <div id="users-list-terminal"></div>
+            <div id="users-display" class="users-display admin-data-theme" style="display: none;">
+                <h2 id="admin-data-title">--- Barcha Foydalanuvchilar ---</h2>
+                <div id="users-list-terminal" class="terminal-list-container"></div>
             </div>
         </section>
 
@@ -276,6 +281,16 @@
             </div>
         </div>
     </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">ELX</div>
+            <div class="owner-name">Saidazimxon Ismoilov</div>
+            <div class="footer-links">
+                <span>Innovation</span> • <span>Education</span> • <span>Excellence</span>
+            </div>
+        </div>
+    </footer>
 
     <script src="app.js"></script>
 </body>

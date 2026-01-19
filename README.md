@@ -1,40 +1,34 @@
-# Kundalik.exl - Premium Education Platform
+# kundalik_com | Powered by ELX
 
-![Logo](frontend/logo.png)
+![Logo](logo.png)
 
-**Kundalik.exl** is a modern, high-performance education management platform designed for students, teachers, and administrators. It features a sleek, premium dark-mode interface with smooth animations and responsive design.
+**kundalik_com** is a premium education management platform developed by **ELX**. It is designed for students, teachers, and administrators, featuring a high-performance dark-mode interface with cutting-edge UI/UX.
 
 ## 🚀 Features
 
 - **Multi-Role Access**: Dedicated dashboards for Students, Teachers, and Admins.
+- **ELX Ecosystem**: Built with the core values of innovation and excellence.
 - **Student Portal**:
   - View weekly grades and average performance.
-  - Secret section for extra-curricular classes with password protection.
-  - Dynamic grade rendering.
 - **Teacher Dashboard**:
-  - Monitor class performance.
-  - View daily lesson schedules.
+  - Monitor class performance and lesson schedules.
 - **Admin Control Panel**:
-  - Overview of system users.
-  - Infrastructure management.
+  - Comprehensive user and system management.
 - **Premium UI/UX**:
-  - Glassmorphism effects.
-  - Dynamic dark/light mode toggle.
-  - Micro-animations and hover feedback.
-  - Fully responsive for mobile and desktop.
+  - Glassmorphism, smooth micro-animations, and dynamic theme switching.
 
 ## 🛠 Tech Stack
 
 - **Frontend**: HTML5, Vanilla CSS3, JavaScript (ES6+).
-- **Backend**: Python (Logic & CLI mode support).
-- **Deployment**: Optimized for Vercel.
+- **Backend**: Python Logic.
+- **Brand**: ELX.
 
 ## 📂 Project Structure
 
-- `frontend/`: Contains the web interface (HTML, CSS, JS).
-- `main_control/`: Core Python logic for the CLI version.
-- `database/`: Data storage and management utilities.
-- `vercel.json`: Deployment configuration.
+- `index.html`: Main entry point.
+- `style.css`: Premium design system.
+- `app.js`: Application logic.
+- `main_control/`: Core Python logic.
 
 ## 💻 Local Setup
 
@@ -42,12 +36,9 @@
    ```bash
    git clone https://github.com/ELX571/kundalik_com.git
    ```
-2. Open `frontend/index.html` in your browser to see the web interface.
-3. (Optional) Run the CLI version:
-   ```bash
-   python main_control/main.py
-   ```
+2. Open `index.html` in your browser.
 
-## 📝 License
+## 📝 Developer
 
-Developed by [Saidazimxon Ismoilov](https://github.com/ELX571).
+Developed by **Saidazimxon Ismoilov** (ELX).
+Visit: [Saidazimxon Ismoilov](https://github.com/ELX571)

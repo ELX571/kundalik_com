@@ -19,6 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('kundalik_theme') === 'light') {
         body.classList.add('light-mode');
     }
+
+    // Helper to clear login error
+    const clearLoginError = () => {
+        loginError.classList.remove('show');
+        loginError.textContent = '';
+    };
+
+    // Clear error on input interaction
+    document.getElementById('username').addEventListener('input', clearLoginError);
+    document.getElementById('password').addEventListener('input', clearLoginError);
+    document.querySelectorAll('input[name="user-role"]').forEach(radio => {
+        radio.addEventListener('change', clearLoginError);
+    });
+
     // Auto-login if user was previously logged in
     const storedCurrentUser = localStorage.getItem('kundalik_current_user');
     if (storedCurrentUser) {
@@ -46,9 +60,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auth Logic
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const role = document.querySelector('input[name="user-role"]:checked').value;
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        const roleChecked = document.querySelector('input[name="user-role"]:checked');
+        const role = roleChecked ? roleChecked.value : '';
+
+        // Specific Validation
+        if (!username || !password) {
+            loginError.textContent = 'Iltimos, barcha maydonlarni to\'ldiring!';
+            loginError.classList.add('show');
+            return;
+        }
+
+        // Loading state
+        const submitBtn = loginForm.querySelector('.primary-btn');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Kirilmoqda...';
 
         // Load users from localStorage or use default
         const storedUsers = localStorage.getItem('kundalik_users');
@@ -57,23 +87,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // Verify credentials & role
         const user = allUsers.find(u => u.username === username && u.password === password && u.role === role);
 
-        if (!user) {
-            loginError.textContent = 'Username, Parol yoki Rol noto\'g\'ri!';
-            loginError.classList.add('show');
+        setTimeout(() => {
+            if (!user) {
+                loginError.textContent = 'Username, Parol yoki Rol noto\'g\'ri!';
+                loginError.classList.add('show');
 
-            // Shake effect
-            const card = document.querySelector('.auth-card');
-            card.style.animation = 'shake 0.4s ease';
-            setTimeout(() => card.style.animation = '', 400);
-            return;
-        }
+                // Shake effect
+                const card = document.querySelector('.auth-card');
+                card.style.animation = 'shake 0.4s ease';
+                setTimeout(() => card.style.animation = '', 400);
 
-        loginError.classList.remove('show');
-        loginError.textContent = '';
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                return;
+            }
 
-        launchDashboard(user);
-        // Persist logged-in user for page reloads
-        localStorage.setItem('kundalik_current_user', JSON.stringify(user));
+            clearLoginError();
+            launchDashboard(user);
+            // Persist logged-in user for page reloads
+            localStorage.setItem('kundalik_current_user', JSON.stringify(user));
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }, 600); // Slight delay for premium feel
     });
 
     function launchDashboard(user) {
@@ -116,8 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
             b.classList.toggle('active', isTarget);
         });
 
-        document.getElementById('sinf-section').classList.toggle('active', tabId === 'sinf');
-        document.getElementById('extra-section').classList.toggle('active', tabId === 'extra');
+        const sinfSec = document.getElementById('sinf-section');
+        const extraSec = document.getElementById('extra-section');
+        if (sinfSec) sinfSec.classList.toggle('active', tabId === 'sinf');
+        if (extraSec) extraSec.classList.toggle('active', tabId === 'extra');
     };
 
     const extraClassesMock = {
@@ -127,35 +165,44 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.verifyExtraPass = () => {
-        const pass = document.getElementById('extra-pass').value;
+        const passEl = document.getElementById('extra-pass');
+        if (!passEl) return;
+        const pass = passEl.value;
         const error = document.getElementById('extra-error');
         const dataContainer = document.querySelector('#extra-section .subject-grid');
 
         const found = extraClassesMock[pass];
 
         if (found) {
-            document.getElementById('extra-auth').style.display = 'none';
-            document.getElementById('extra-data').classList.add('active');
-            error.classList.remove('show');
+            const extraAuth = document.getElementById('extra-auth');
+            const extraData = document.getElementById('extra-data');
+            if (extraAuth) extraAuth.style.display = 'none';
+            if (extraData) extraData.classList.add('active');
+            if (error) error.classList.remove('show');
 
-            dataContainer.innerHTML = `
-                <div class="subject-card">
-                    <div class="subject-info">
-                        <strong>${found.subject}</strong>
-                        <p>${found.days}</p>
-                        <p style="font-size: 0.8rem; margin-top: 5px;">O'quvchi: ${found.name}</p>
+            if (dataContainer) {
+                dataContainer.innerHTML = `
+                    <div class="subject-card">
+                        <div class="subject-info">
+                            <strong>${found.subject}</strong>
+                            <p>${found.days}</p>
+                            <p style="font-size: 0.8rem; margin-top: 5px;">O'quvchi: ${found.name}</p>
+                        </div>
+                        <div class="grade-badge">${found.time}</div>
                     </div>
-                    <div class="grade-badge">${found.time}</div>
-                </div>
-            `;
+                `;
+            }
         } else {
-            error.textContent = 'Bunday parolga ega o‘quvchi yo‘q! (To\'g\'ri kodlar: 1111, 2222, 3333)';
-            error.classList.add('show');
+            if (error) {
+                error.textContent = 'Bunday parolga ega o‘quvchi yo‘q! (To\'g\'ri kodlar: 1111, 2222, 3333)';
+                error.classList.add('show');
+            }
         }
     };
 
     function renderGrades() {
         const container = document.getElementById('subject-list');
+        if (!container) return;
         container.innerHTML = '';
 
         gradesMock.forEach(item => {
@@ -173,11 +220,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add Enter key listener for extra password
-    document.getElementById('extra-pass').addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
-            window.verifyExtraPass();
-        }
-    });
+    const extraPassInput = document.getElementById('extra-pass');
+    if (extraPassInput) {
+        extraPassInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                window.verifyExtraPass();
+            }
+        });
+    }
 
     // ========== ADMIN CLI COMMAND SYSTEM ==========
 
@@ -221,12 +271,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add typing sound effect (visual)
         commandInput.addEventListener('input', (e) => {
-            if (e.target.value) {
-                commandInput.style.color = 'var(--accent-cyan)';
-            } else {
-                commandInput.style.color = 'var(--success-green)';
-            }
+            commandInput.style.color = e.target.value ? 'var(--accent-cyan)' : 'var(--success-green)';
         });
+
+        // Click handler for Yuborish button
+        const adminSubmitBtn = document.getElementById('admin-submit-btn');
+        if (adminSubmitBtn) {
+            adminSubmitBtn.addEventListener('click', () => {
+                const cmd = parseInt(commandInput.value);
+                if (!isNaN(cmd)) {
+                    // Visual feedback
+                    commandInput.classList.add('executing');
+                    setTimeout(() => commandInput.classList.remove('executing'), 300);
+                    executeCommand(cmd);
+                    commandInput.value = '';
+                }
+            });
+        }
     }
 
     function executeCommand(cmd) {
@@ -382,6 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         studentCommandInput.addEventListener('input', (e) => {
             studentCommandInput.style.color = e.target.value ? '#bf5af2' : '#32d74b';
         });
+
         // Click handler for Yuborish button
         const studentSubmitBtn = document.getElementById('student-submit-btn');
         if (studentSubmitBtn) {
@@ -396,116 +458,139 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
-        studentCommandInput.style.color = e.target.value ? '#bf5af2' : '#32d74b';
-    });
     }
 
-function executeStudentCommand(cmd) {
-    studentCommandOutput.innerHTML = '';
-    studentDataDisplay.style.display = 'none';
+    function executeStudentCommand(cmd) {
+        studentCommandOutput.innerHTML = '';
+        studentDataDisplay.style.display = 'none';
+        const studentDataTitle = document.getElementById('student-data-title');
 
-    if (cmd === 1) {
-        // Baholarni ko'rish
-        studentDataDisplay.style.display = 'block';
-        studentDataContent.innerHTML = '<h2 style="color: #32d74b; font-family: Courier New;">📚 Mening Baholarim</h2>';
-        gradesMock.forEach(item => {
-            const line = document.createElement('div');
-            line.className = 'user-line';
-            line.textContent = `${item.name}: ${item.grade} (${item.status})`;
-            studentDataContent.appendChild(line);
-        });
-    } else if (cmd === 2) {
-        // Qo'shimcha darslar
-        studentDataDisplay.style.display = 'block';
-        studentDataContent.innerHTML = '<h2 style="color: #bf5af2; font-family: Courier New;">🎯 Qo\'shimcha Darslar</h2>';
-        const extraClasses = [
-            { name: 'Python Programming', time: '18:00', days: 'Dushanba, Chorshanba, Juma' },
-            { name: 'IELTS Foundation', time: '16:30', days: 'Seshanba, Payshanba, Shanba' },
-            { name: 'Algoritmlash', time: '10:00', days: 'Yakshanba' }
-        ];
-        extraClasses.forEach(cls => {
-            const line = document.createElement('div');
-            line.className = 'user-line';
-            line.textContent = `${cls.name} | ${cls.time} | ${cls.days}`;
-            studentDataContent.appendChild(line);
-        });
-    } else if (cmd === 3) {
-        // O'rtacha ball
-        const avg = (gradesMock.reduce((sum, g) => sum + g.grade, 0) / gradesMock.length).toFixed(2);
-        studentCommandOutput.innerHTML = `<div class="success">📊 O'rtacha ball: ${avg}</div>`;
-    } else if (cmd === 0) {
-        studentCommandOutput.innerHTML = '<div class="success">Dastur yakunlandi!</div>';
-        setTimeout(() => document.getElementById('logout-btn').click(), 1000);
-    } else {
-        studentCommandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
-    }
-}
+        if (cmd === 1) {
+            // Baholarni ko'rish
+            studentDataDisplay.style.display = 'block';
+            studentDataTitle.textContent = '--- Mening Baholarim ---';
+            studentDataContent.innerHTML = '';
 
-// ========== TEACHER CLI COMMAND SYSTEM ==========
-const teacherCommandInput = document.getElementById('teacher-command-input');
-const teacherCommandOutput = document.getElementById('teacher-command-output');
-const teacherDataDisplay = document.getElementById('teacher-data-display');
-const teacherDataContent = document.getElementById('teacher-data-content');
+            gradesMock.forEach(item => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = `${item.name}: ${item.grade} (${item.status})`;
+                studentDataContent.appendChild(line);
+            });
+        } else if (cmd === 2) {
+            // Qo'shimcha darslar
+            studentDataDisplay.style.display = 'block';
+            studentDataTitle.textContent = '--- Qo\'shimcha Darslar ---';
+            studentDataContent.innerHTML = '';
 
-if (teacherCommandInput) {
-    teacherCommandInput.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
-            const cmd = parseInt(teacherCommandInput.value);
-
-            // Visual feedback
-            teacherCommandInput.classList.add('executing');
-            setTimeout(() => teacherCommandInput.classList.remove('executing'), 300);
-
-            executeTeacherCommand(cmd);
-            teacherCommandInput.value = '';
+            const extraClasses = [
+                { name: 'Python Programming', time: '18:00', students: 'Saidazimxon Ismoilov' },
+                { name: 'IELTS Foundation', time: '16:30', students: 'Saidazimxon Ismoilov' },
+                { name: 'Algoritmlash', time: '10:00', students: 'Saidazimxon Ismoilov' }
+            ];
+            extraClasses.forEach(cls => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = `${cls.name} | ${cls.time} | O'qituvchi: ${cls.students}`;
+                studentDataContent.appendChild(line);
+            });
+        } else if (cmd === 3) {
+            // O'rtacha ball
+            const avg = (gradesMock.reduce((sum, g) => sum + g.grade, 0) / gradesMock.length).toFixed(2);
+            studentCommandOutput.innerHTML = `<div class="success">📊 O'rtacha ball: ${avg}</div>`;
+        } else if (cmd === 0) {
+            studentCommandOutput.innerHTML = '<div class="success">Dastur yakunlandi!</div>';
+            setTimeout(() => document.getElementById('logout-btn').click(), 1000);
+        } else {
+            studentCommandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
         }
-    });
-
-    teacherCommandInput.addEventListener('input', (e) => {
-        teacherCommandInput.style.color = e.target.value ? '#ff453a' : '#ff9f0a';
-    });
-}
-
-function executeTeacherCommand(cmd) {
-    teacherCommandOutput.innerHTML = '';
-    teacherDataDisplay.style.display = 'none';
-
-    if (cmd === 1) {
-        // Bugungi darslar
-        teacherDataDisplay.style.display = 'block';
-        teacherDataContent.innerHTML = '<h2 style="color: #ff9f0a; font-family: Courier New;">📅 Bugungi Dars Jadvali</h2>';
-        const lessons = [
-            { name: 'Matematika (9-A)', time: '08:30', students: 20 },
-            { name: 'Matematika (10-B)', time: '10:00', students: 18 },
-            { name: 'Algebra (11-C)', time: '11:45', students: 22 }
-        ];
-        lessons.forEach(lesson => {
-            const line = document.createElement('div');
-            line.className = 'user-line';
-            line.textContent = `${lesson.time} | ${lesson.name} | ${lesson.students} o'quvchi`;
-            teacherDataContent.appendChild(line);
-        });
-    } else if (cmd === 2) {
-        // Sinflar ro'yxati
-        teacherDataDisplay.style.display = 'block';
-        teacherDataContent.innerHTML = '<h2 style="color: #ff453a; font-family: Courier New;">🏫 Sinflar Ro\'yxati</h2>';
-        const classes = ['9-A (20 o\'quvchi)', '10-B (18 o\'quvchi)', '11-C (22 o\'quvchi)', '9-B (19 o\'quvchi)', '10-A (21 o\'quvchi)'];
-        classes.forEach(cls => {
-            const line = document.createElement('div');
-            line.className = 'user-line';
-            line.textContent = cls;
-            teacherDataContent.appendChild(line);
-        });
-    } else if (cmd === 3) {
-        // Statistika
-        teacherCommandOutput.innerHTML = '<div class="success">📊 Sinflar: 5 | O\'rtacha o\'zlashtirish: 89% | Yangi baholar: 42</div>';
-    } else if (cmd === 0) {
-        teacherCommandOutput.innerHTML = '<div class="success">Dastur yakunlandi!</div>';
-        setTimeout(() => document.getElementById('logout-btn').click(), 1000);
-    } else {
-        teacherCommandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
     }
-}
+
+    // ========== TEACHER CLI COMMAND SYSTEM ==========
+    const teacherCommandInput = document.getElementById('teacher-command-input');
+    const teacherCommandOutput = document.getElementById('teacher-command-output');
+    const teacherDataDisplay = document.getElementById('teacher-data-display');
+    const teacherDataContent = document.getElementById('teacher-data-content');
+
+    if (teacherCommandInput) {
+        teacherCommandInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = parseInt(teacherCommandInput.value);
+
+                // Visual feedback
+                teacherCommandInput.classList.add('executing');
+                setTimeout(() => teacherCommandInput.classList.remove('executing'), 300);
+
+                executeTeacherCommand(cmd);
+                teacherCommandInput.value = '';
+            }
+        });
+
+        teacherCommandInput.addEventListener('input', (e) => {
+            teacherCommandInput.style.color = e.target.value ? '#ff453a' : '#ff9f0a';
+        });
+
+        // Click handler for Yuborish button
+        const teacherSubmitBtn = document.getElementById('teacher-submit-btn');
+        if (teacherSubmitBtn) {
+            teacherSubmitBtn.addEventListener('click', () => {
+                const cmd = parseInt(teacherCommandInput.value);
+                if (!isNaN(cmd)) {
+                    // Visual feedback
+                    teacherCommandInput.classList.add('executing');
+                    setTimeout(() => teacherCommandInput.classList.remove('executing'), 300);
+                    executeTeacherCommand(cmd);
+                    teacherCommandInput.value = '';
+                }
+            });
+        }
+    }
+
+    function executeTeacherCommand(cmd) {
+        teacherCommandOutput.innerHTML = '';
+        teacherDataDisplay.style.display = 'none';
+        const teacherDataTitle = document.getElementById('teacher-data-title');
+
+        if (cmd === 1) {
+            // Bugungi darslar
+            teacherDataDisplay.style.display = 'block';
+            teacherDataTitle.textContent = '--- Bugungi Dars Jadvali ---';
+            teacherDataContent.innerHTML = '';
+
+            const lessons = [
+                { name: 'Matematika (9-A)', time: '08:30', students: 20 },
+                { name: 'Matematika (10-B)', time: '10:00', students: 18 },
+                { name: 'Algebra (11-C)', time: '11:45', students: 22 }
+            ];
+            lessons.forEach(lesson => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = `${lesson.time} | ${lesson.name} | ${lesson.students} o'quvchi`;
+                teacherDataContent.appendChild(line);
+            });
+        } else if (cmd === 2) {
+            // Sinflar ro'yxati
+            teacherDataDisplay.style.display = 'block';
+            teacherDataTitle.textContent = '--- Sinflar Ro\'yxati ---';
+            teacherDataContent.innerHTML = '';
+
+            const classes = ['9-A (20 o\'quvchi)', '10-B (18 o\'quvchi)', '11-C (22 o\'quvchi)', '9-B (19 o\'quvchi)', '10-A (21 o\'quvchi)'];
+            classes.forEach(cls => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = cls;
+                teacherDataContent.appendChild(line);
+            });
+        } else if (cmd === 3) {
+            // Statistika
+            teacherCommandOutput.innerHTML = '<div class="success">📊 Sinflar: 5 | O\'rtacha o\'zlashtirish: 89% | Yangi baholar: 42</div>';
+        } else if (cmd === 0) {
+            teacherCommandOutput.innerHTML = '<div class="success">Dastur yakunlandi!</div>';
+            setTimeout(() => document.getElementById('logout-btn').click(), 1000);
+        } else {
+            teacherCommandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
+        }
+    }
 });
 
 // Add keyframes for shake
