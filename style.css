@@ -869,3 +869,111 @@ body.light-mode .role-option input:checked+.role-box {
     background: rgba(0, 122, 255, 0.1);
     padding-left: 15px;
 }
+
+/* ========== ROLE-SPECIFIC TERMINAL THEMES ========== */
+
+/* Student Terminal - Green/Purple Theme */
+.student-terminal {
+    border: 1px solid rgba(50, 215, 75, 0.2);
+}
+
+.student-terminal .terminal-header {
+    background: linear-gradient(135deg, #1e3a1e, #2d1e3a);
+}
+
+.student-menu {
+    background: rgba(50, 215, 75, 0.05);
+    border: 1px solid rgba(50, 215, 75, 0.2);
+}
+
+.student-menu .menu-title {
+    color: #32d74b;
+}
+
+.student-cmd {
+    background: linear-gradient(135deg, #32d74b, #bf5af2);
+    box-shadow: 0 2px 8px rgba(50, 215, 75, 0.3);
+}
+
+.student-prompt {
+    color: #32d74b;
+}
+
+.student-input {
+    border-color: #32d74b;
+    color: #bf5af2;
+    animation: pulse-border-student 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border-student {
+
+    0%,
+    100% {
+        border-color: #32d74b;
+        box-shadow: 0 0 10px rgba(50, 215, 75, 0.3);
+    }
+
+    50% {
+        border-color: #bf5af2;
+        box-shadow: 0 0 25px rgba(191, 90, 242, 0.5);
+    }
+}
+
+.student-input:focus {
+    animation: none;
+    box-shadow: 0 0 30px rgba(50, 215, 75, 0.8), 0 0 60px rgba(191, 90, 242, 0.4);
+    border-color: #bf5af2;
+}
+
+/* Teacher Terminal - Orange/Amber Theme */
+.teacher-terminal {
+    border: 1px solid rgba(255, 159, 10, 0.2);
+}
+
+.teacher-terminal .terminal-header {
+    background: linear-gradient(135deg, #3a2e1e, #3a1e1e);
+}
+
+.teacher-menu {
+    background: rgba(255, 159, 10, 0.05);
+    border: 1px solid rgba(255, 159, 10, 0.2);
+}
+
+.teacher-menu .menu-title {
+    color: #ff9f0a;
+}
+
+.teacher-cmd {
+    background: linear-gradient(135deg, #ff9f0a, #ff453a);
+    box-shadow: 0 2px 8px rgba(255, 159, 10, 0.3);
+}
+
+.teacher-prompt {
+    color: #ff9f0a;
+}
+
+.teacher-input {
+    border-color: #ff9f0a;
+    color: #ff6b35;
+    animation: pulse-border-teacher 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border-teacher {
+
+    0%,
+    100% {
+        border-color: #ff9f0a;
+        box-shadow: 0 0 10px rgba(255, 159, 10, 0.3);
+    }
+
+    50% {
+        border-color: #ff453a;
+        box-shadow: 0 0 25px rgba(255, 69, 58, 0.5);
+    }
+}
+
+.teacher-input:focus {
+    animation: none;
+    box-shadow: 0 0 30px rgba(255, 159, 10, 0.8), 0 0 60px rgba(255, 69, 58, 0.4);
+    border-color: #ff453a;
+}

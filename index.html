@@ -96,88 +96,42 @@
         <section id="student-dashboard" class="role-section section">
             <header class="section-header">
                 <div>
-                    <h1>Mening Paneli</h1>
-                    <p style="color: var(--text-dim);">Bugun nimalarni o'rganamiz?</p>
+                    <h1>O'quvchi Paneli</h1>
+                    <p style="color: var(--text-dim);">Buyruq raqamini kiriting</p>
                 </div>
                 <div class="user-badge" id="student-display"></div>
             </header>
 
-            <div class="dashboard-tabs">
-                <button class="tab-btn active" onclick="switchStudentTab('sinf')">Sinf Darslari</button>
-                <button class="tab-btn" onclick="switchStudentTab('extra')">Qo'shimcha Darslar</button>
+            <!-- Student CLI Terminal -->
+            <div class="terminal-container student-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-title">Student Panel - Learning Mode</div>
+                    <div class="terminal-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-menu student-menu">
+                        <div class="menu-title">📚 Mavjud Buyruqlar:</div>
+                        <div class="menu-item"><span class="cmd-num student-cmd">1</span> → Baholarni ko'rish</div>
+                        <div class="menu-item"><span class="cmd-num student-cmd">2</span> → Qo'shimcha darslar</div>
+                        <div class="menu-item"><span class="cmd-num student-cmd">3</span> → O'rtacha ball</div>
+                        <div class="menu-item"><span class="cmd-num student-cmd">0</span> → Chiqish</div>
+                    </div>
+
+                    <div class="command-input-group">
+                        <span class="prompt student-prompt">Buyruq >>></span>
+                        <input type="text" id="student-command-input" class="terminal-input student-input" maxlength="1"
+                            autofocus>
+                    </div>
+
+                    <div id="student-command-output" class="command-output"></div>
+                </div>
             </div>
 
-            <div id="sinf-section" class="tab-content active">
-                <div class="stats-grid">
-                    <div class="stat-card blue">
-                        <h3>O'RTASHA BAHO</h3>
-                        <div class="value">4.92</div>
-                    </div>
-                    <div class="stat-card purple">
-                        <h3>FANLAR SONI</h3>
-                        <div class="value">14</div>
-                    </div>
-                </div>
-                <div class="subjects-container">
-                    <h2>Mening Fanlarim & Baholarim</h2>
-                    <div class="subject-grid" id="subject-list">
-                        <!-- Filled by JS -->
-                    </div>
-                </div>
-            </div>
-
-            <div id="extra-section" class="tab-content">
-                <div id="extra-auth" class="extra-auth-container">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
-                    <h3>Maxfiy Kodni Kiriting</h3>
-                    <p>Qo'shimcha darslar ma'lumotlarini ko'rish uchun 4 xonali kodingizni tasdiqlang</p>
-                    <div class="input-group" style="max-width: 200px; margin: 2.5rem auto;">
-                        <input type="password" id="extra-pass" maxlength="4" placeholder=" " required>
-                        <label for="extra-pass">4 Xonali Kod</label>
-                    </div>
-                    <div id="extra-error" class="error-text"></div>
-                    <button class="primary-btn" style="width: auto; padding: 1.2rem 4rem;"
-                        onclick="verifyExtraPass()">Tekshirish</button>
-                </div>
-
-                <div id="extra-data" class="tab-sub-content">
-                    <div class="stats-grid">
-                        <div class="stat-card cyan">
-                            <h3>QO'SHIMCHA FANLAR</h3>
-                            <div class="value">03</div>
-                        </div>
-                        <div class="stat-card purple">
-                            <h3>HAFTALIK SOATLAR</h3>
-                            <div class="value">08</div>
-                        </div>
-                    </div>
-                    <div class="subjects-container">
-                        <h2>Qo'shimcha Darslar Jadvali</h2>
-                        <div class="subject-grid">
-                            <div class="subject-card">
-                                <div class="subject-info">
-                                    <strong>Python Programming</strong>
-                                    <p>Dushanba, Chorshanba, Juma</p>
-                                </div>
-                                <div class="grade-badge">18:00</div>
-                            </div>
-                            <div class="subject-card">
-                                <div class="subject-info">
-                                    <strong>IELTS Foundation</strong>
-                                    <p>Seshanba, Payshanba, Shanba</p>
-                                </div>
-                                <div class="grade-badge">16:30</div>
-                            </div>
-                            <div class="subject-card">
-                                <div class="subject-info">
-                                    <strong>Algoritmlash</strong>
-                                    <p>Yakshanba</p>
-                                </div>
-                                <div class="grade-badge">10:00</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Student Data Display -->
+            <div id="student-data-display" class="users-display" style="display: none;">
+                <div id="student-data-content"></div>
             </div>
         </section>
 
@@ -186,49 +140,41 @@
             <header class="section-header">
                 <div>
                     <h1>O'qituvchi Paneli</h1>
-                    <p style="color: var(--text-dim);">Bugungi darslarni nazorat qiling</p>
+                    <p style="color: var(--text-dim);">Buyruq raqamini kiriting</p>
                 </div>
                 <div class="user-badge" id="teacher-display"></div>
             </header>
-            <div class="stats-grid">
-                <div class="stat-card purple">
-                    <h3>SINFLAR SONI</h3>
-                    <div class="value">05</div>
+
+            <!-- Teacher CLI Terminal -->
+            <div class="terminal-container teacher-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-title">Teacher Panel - Education Mode</div>
+                    <div class="terminal-dots">
+                        <span></span><span></span><span></span>
+                    </div>
                 </div>
-                <div class="stat-card cyan">
-                    <h3>O'RTACHA O'ZLASHTIRISH</h3>
-                    <div class="value">89%</div>
-                </div>
-                <div class="stat-card blue">
-                    <h3>YANGI BAHOLAR</h3>
-                    <div class="value">42</div>
+                <div class="terminal-body">
+                    <div class="command-menu teacher-menu">
+                        <div class="menu-title">🎓 Mavjud Buyruqlar:</div>
+                        <div class="menu-item"><span class="cmd-num teacher-cmd">1</span> → Bugungi darslar</div>
+                        <div class="menu-item"><span class="cmd-num teacher-cmd">2</span> → Sinflar ro'yxati</div>
+                        <div class="menu-item"><span class="cmd-num teacher-cmd">3</span> → Statistika</div>
+                        <div class="menu-item"><span class="cmd-num teacher-cmd">0</span> → Chiqish</div>
+                    </div>
+
+                    <div class="command-input-group">
+                        <span class="prompt teacher-prompt">Buyruq >>></span>
+                        <input type="text" id="teacher-command-input" class="terminal-input teacher-input" maxlength="1"
+                            autofocus>
+                    </div>
+
+                    <div id="teacher-command-output" class="command-output"></div>
                 </div>
             </div>
-            <div class="subjects-container">
-                <h2>Bugungi Dars Jadvali</h2>
-                <div class="subject-grid">
-                    <div class="subject-card">
-                        <div class="subject-info">
-                            <strong>Matematika (9-A)</strong>
-                            <p>Asosiy klass • 20 o'quvchi</p>
-                        </div>
-                        <div class="grade-badge">08:30</div>
-                    </div>
-                    <div class="subject-card">
-                        <div class="subject-info">
-                            <strong>Matematika (10-B)</strong>
-                            <p>Asosiy klass • 18 o'quvchi</p>
-                        </div>
-                        <div class="grade-badge">10:00</div>
-                    </div>
-                    <div class="subject-card">
-                        <div class="subject-info">
-                            <strong>Algebra (11-C)</strong>
-                            <p>Tayyorgarlik • 22 o'quvchi</p>
-                        </div>
-                        <div class="grade-badge">11:45</div>
-                    </div>
-                </div>
+
+            <!-- Teacher Data Display -->
+            <div id="teacher-data-display" class="users-display" style="display: none;">
+                <div id="teacher-data-content"></div>
             </div>
         </section>
 

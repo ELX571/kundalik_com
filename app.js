@@ -347,6 +347,138 @@ document.addEventListener('DOMContentLoaded', () => {
             commandOutput.innerHTML = `<div class="success">( SUCCESS ) ${roleText} ${fullName} qo'shildi (ID: ${newId})</div>`;
         });
     }
+
+    // ========== STUDENT CLI COMMAND SYSTEM ==========
+    const studentCommandInput = document.getElementById('student-command-input');
+    const studentCommandOutput = document.getElementById('student-command-output');
+    const studentDataDisplay = document.getElementById('student-data-display');
+    const studentDataContent = document.getElementById('student-data-content');
+
+    if (studentCommandInput) {
+        studentCommandInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = parseInt(studentCommandInput.value);
+
+                // Visual feedback
+                studentCommandInput.classList.add('executing');
+                setTimeout(() => studentCommandInput.classList.remove('executing'), 300);
+
+                executeStudentCommand(cmd);
+                studentCommandInput.value = '';
+            }
+        });
+
+        studentCommandInput.addEventListener('input', (e) => {
+            studentCommandInput.style.color = e.target.value ? '#bf5af2' : '#32d74b';
+        });
+    }
+
+    function executeStudentCommand(cmd) {
+        studentCommandOutput.innerHTML = '';
+        studentDataDisplay.style.display = 'none';
+
+        if (cmd === 1) {
+            // Baholarni ko'rish
+            studentDataDisplay.style.display = 'block';
+            studentDataContent.innerHTML = '<h2 style="color: #32d74b; font-family: Courier New;">📚 Mening Baholarim</h2>';
+            gradesMock.forEach(item => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = `${item.name}: ${item.grade} (${item.status})`;
+                studentDataContent.appendChild(line);
+            });
+        } else if (cmd === 2) {
+            // Qo'shimcha darslar
+            studentDataDisplay.style.display = 'block';
+            studentDataContent.innerHTML = '<h2 style="color: #bf5af2; font-family: Courier New;">🎯 Qo\'shimcha Darslar</h2>';
+            const extraClasses = [
+                { name: 'Python Programming', time: '18:00', days: 'Dushanba, Chorshanba, Juma' },
+                { name: 'IELTS Foundation', time: '16:30', days: 'Seshanba, Payshanba, Shanba' },
+                { name: 'Algoritmlash', time: '10:00', days: 'Yakshanba' }
+            ];
+            extraClasses.forEach(cls => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = `${cls.name} | ${cls.time} | ${cls.days}`;
+                studentDataContent.appendChild(line);
+            });
+        } else if (cmd === 3) {
+            // O'rtacha ball
+            const avg = (gradesMock.reduce((sum, g) => sum + g.grade, 0) / gradesMock.length).toFixed(2);
+            studentCommandOutput.innerHTML = `<div class="success">📊 O'rtacha ball: ${avg}</div>`;
+        } else if (cmd === 0) {
+            studentCommandOutput.innerHTML = '<div class="success">Dastur yakunlandi!</div>';
+            setTimeout(() => document.getElementById('logout-btn').click(), 1000);
+        } else {
+            studentCommandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
+        }
+    }
+
+    // ========== TEACHER CLI COMMAND SYSTEM ==========
+    const teacherCommandInput = document.getElementById('teacher-command-input');
+    const teacherCommandOutput = document.getElementById('teacher-command-output');
+    const teacherDataDisplay = document.getElementById('teacher-data-display');
+    const teacherDataContent = document.getElementById('teacher-data-content');
+
+    if (teacherCommandInput) {
+        teacherCommandInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = parseInt(teacherCommandInput.value);
+
+                // Visual feedback
+                teacherCommandInput.classList.add('executing');
+                setTimeout(() => teacherCommandInput.classList.remove('executing'), 300);
+
+                executeTeacherCommand(cmd);
+                teacherCommandInput.value = '';
+            }
+        });
+
+        teacherCommandInput.addEventListener('input', (e) => {
+            teacherCommandInput.style.color = e.target.value ? '#ff453a' : '#ff9f0a';
+        });
+    }
+
+    function executeTeacherCommand(cmd) {
+        teacherCommandOutput.innerHTML = '';
+        teacherDataDisplay.style.display = 'none';
+
+        if (cmd === 1) {
+            // Bugungi darslar
+            teacherDataDisplay.style.display = 'block';
+            teacherDataContent.innerHTML = '<h2 style="color: #ff9f0a; font-family: Courier New;">📅 Bugungi Dars Jadvali</h2>';
+            const lessons = [
+                { name: 'Matematika (9-A)', time: '08:30', students: 20 },
+                { name: 'Matematika (10-B)', time: '10:00', students: 18 },
+                { name: 'Algebra (11-C)', time: '11:45', students: 22 }
+            ];
+            lessons.forEach(lesson => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = `${lesson.time} | ${lesson.name} | ${lesson.students} o'quvchi`;
+                teacherDataContent.appendChild(line);
+            });
+        } else if (cmd === 2) {
+            // Sinflar ro'yxati
+            teacherDataDisplay.style.display = 'block';
+            teacherDataContent.innerHTML = '<h2 style="color: #ff453a; font-family: Courier New;">🏫 Sinflar Ro\'yxati</h2>';
+            const classes = ['9-A (20 o\'quvchi)', '10-B (18 o\'quvchi)', '11-C (22 o\'quvchi)', '9-B (19 o\'quvchi)', '10-A (21 o\'quvchi)'];
+            classes.forEach(cls => {
+                const line = document.createElement('div');
+                line.className = 'user-line';
+                line.textContent = cls;
+                teacherDataContent.appendChild(line);
+            });
+        } else if (cmd === 3) {
+            // Statistika
+            teacherCommandOutput.innerHTML = '<div class="success">📊 Sinflar: 5 | O\'rtacha o\'zlashtirish: 89% | Yangi baholar: 42</div>';
+        } else if (cmd === 0) {
+            teacherCommandOutput.innerHTML = '<div class="success">Dastur yakunlandi!</div>';
+            setTimeout(() => document.getElementById('logout-btn').click(), 1000);
+        } else {
+            teacherCommandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
+        }
+    }
 });
 
 // Add keyframes for shake
