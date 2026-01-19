@@ -7,7 +7,7 @@ def check_credentials(username, password) -> User | None:
     for user in all_users:
         if username == user.username and password == user.password:
             return user
-    print("Username yoki Parol xato!!!")
+    print("\033[91mUsername yoki Parol xato!!!\033[0m")
 
 
 def login() -> User:

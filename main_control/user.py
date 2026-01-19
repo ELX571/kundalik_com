@@ -70,3 +70,23 @@ user1 = User(
     birth_date="19.03.2009",
     user_type=UserType.STUDENT,
 )
+
+user2 = User(
+    username="2",
+    password="2",
+    first_name="Saidazimxon",
+    last_name="Ismilow",
+    middle_name="Saidolimxonxon o'g'li",
+    birth_date="19.03.2008",
+    user_type=UserType.STUDENT,
+)
+
+user3 = User(
+    username="2",
+    password="2",
+    first_name="Saidazimxon",
+    last_name="Ismilow",
+    middle_name="Saidolimxonxon o'g'li",
+    birth_date="19.03.2007",
+    user_type=UserType.STUDENT,
+)

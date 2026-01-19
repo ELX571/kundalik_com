@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kundalik | Premium Education Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo" class="brand-logo">
+                <div class="logo">kundalik<span>.exl</span></div>
+            </div>
+            <div class="nav-actions">
+                <a id="logout-btn" class="logout-link" style="display: none;">Chiqish</a>
+                <button id="theme-toggle" class="icon-btn" aria-label="Mavzuni o'zgartirish">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="22" height="22">
+                        <path fill="currentColor"
+                            d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z" />
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="22" height="22">
+                        <path fill="currentColor"
+                            d="M12.1 22c-5.5 0-10-4.5-10-10s4.5-10 10-10c.8 0 1.6.1 2.4.3-.6.8-1 1.7-1 2.7 0 2.8 2.2 5 5 5 .9 0 1.8-.3 2.5-.7.3 1 .5 1.9.5 2.7 0 5.5-4.5 10-9.4 10z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <!-- Auth Section -->
+        <section id="auth-section" class="section active">
+            <div class="auth-wrapper">
+                <div class="auth-card">
+                    <h2>Xush Kelibsiz</h2>
+                    <p>Platformadan foydalanish uchun tizimga kiring</p>
+                    <form id="login-form">
+                        <div class="role-selector">
+                            <label class="role-option">
+                                <input type="radio" name="user-role" value="student" checked>
+                                <div class="role-box">O'quvchi</div>
+                            </label>
+                            <label class="role-option">
+                                <input type="radio" name="user-role" value="teacher">
+                                <div class="role-box">O'qituvchi</div>
+                            </label>
+                            <label class="role-option">
+                                <input type="radio" name="user-role" value="admin">
+                                <div class="role-box">Admin</div>
+                            </label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="username" placeholder=" " required autofocus>
+                            <label for="username">Foydalanuvchi nomi</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="password" placeholder=" " required>
+                            <label for="password">Parol</label>
+                            <div class="glow"></div>
+                        </div>
+                        <div id="login-error" class="error-text"></div>
+                        <button type="submit" class="primary-btn">Tizimga Kirish</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Student Dashboard -->
+        <section id="student-dashboard" class="role-section section">
+            <header class="section-header">
+                <div>
+                    <h1>Mening Paneli</h1>
+                    <p style="color: var(--text-dim);">Bugun nimalarni o'rganamiz?</p>
+                </div>
+                <div class="user-badge" id="student-display"></div>
+            </header>
+
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" onclick="switchStudentTab('sinf')">Sinf Darslari</button>
+                <button class="tab-btn" onclick="switchStudentTab('extra')">Qo'shimcha Darslar</button>
+            </div>
+
+            <div id="sinf-section" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <h3>O'RTASHA BAHO</h3>
+                        <div class="value">4.92</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <h3>FANLAR SONI</h3>
+                        <div class="value">14</div>
+                    </div>
+                </div>
+                <div class="subjects-container">
+                    <h2>Mening Fanlarim & Baholarim</h2>
+                    <div class="subject-grid" id="subject-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="extra-section" class="tab-content">
+                <div id="extra-auth" class="extra-auth-container">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
+                    <h3>Maxfiy Kodni Kiriting</h3>
+                    <p>Qo'shimcha darslar ma'lumotlarini ko'rish uchun 4 xonali kodingizni tasdiqlang</p>
+                    <div class="input-group" style="max-width: 200px; margin: 2.5rem auto;">
+                        <input type="password" id="extra-pass" maxlength="4" placeholder=" " required>
+                        <label for="extra-pass">4 Xonali Kod</label>
+                    </div>
+                    <div id="extra-error" class="error-text"></div>
+                    <button class="primary-btn" style="width: auto; padding: 1.2rem 4rem;"
+                        onclick="verifyExtraPass()">Tekshirish</button>
+                </div>
+
+                <div id="extra-data" class="tab-sub-content">
+                    <div class="stats-grid">
+                        <div class="stat-card cyan">
+                            <h3>QO'SHIMCHA FANLAR</h3>
+                            <div class="value">03</div>
+                        </div>
+                        <div class="stat-card purple">
+                            <h3>HAFTALIK SOATLAR</h3>
+                            <div class="value">08</div>
+                        </div>
+                    </div>
+                    <div class="subjects-container">
+                        <h2>Qo'shimcha Darslar Jadvali</h2>
+                        <div class="subject-grid">
+                            <div class="subject-card">
+                                <div class="subject-info">
+                                    <strong>Python Programming</strong>
+                                    <p>Dushanba, Chorshanba, Juma</p>
+                                </div>
+                                <div class="grade-badge">18:00</div>
+                            </div>
+                            <div class="subject-card">
+                                <div class="subject-info">
+                                    <strong>IELTS Foundation</strong>
+                                    <p>Seshanba, Payshanba, Shanba</p>
+                                </div>
+                                <div class="grade-badge">16:30</div>
+                            </div>
+                            <div class="subject-card">
+                                <div class="subject-info">
+                                    <strong>Algoritmlash</strong>
+                                    <p>Yakshanba</p>
+                                </div>
+                                <div class="grade-badge">10:00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Teacher Dashboard -->
+        <section id="teacher-dashboard" class="role-section section">
+            <header class="section-header">
+                <div>
+                    <h1>O'qituvchi Paneli</h1>
+                    <p style="color: var(--text-dim);">Bugungi darslarni nazorat qiling</p>
+                </div>
+                <div class="user-badge" id="teacher-display"></div>
+            </header>
+            <div class="stats-grid">
+                <div class="stat-card purple">
+                    <h3>SINFLAR SONI</h3>
+                    <div class="value">05</div>
+                </div>
+                <div class="stat-card cyan">
+                    <h3>O'RTACHA O'ZLASHTIRISH</h3>
+                    <div class="value">89%</div>
+                </div>
+                <div class="stat-card blue">
+                    <h3>YANGI BAHOLAR</h3>
+                    <div class="value">42</div>
+                </div>
+            </div>
+            <div class="subjects-container">
+                <h2>Bugungi Dars Jadvali</h2>
+                <div class="subject-grid">
+                    <div class="subject-card">
+                        <div class="subject-info">
+                            <strong>Matematika (9-A)</strong>
+                            <p>Asosiy klass • 20 o'quvchi</p>
+                        </div>
+                        <div class="grade-badge">08:30</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-info">
+                            <strong>Matematika (10-B)</strong>
+                            <p>Asosiy klass • 18 o'quvchi</p>
+                        </div>
+                        <div class="grade-badge">10:00</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-info">
+                            <strong>Algebra (11-C)</strong>
+                            <p>Tayyorgarlik • 22 o'quvchi</p>
+                        </div>
+                        <div class="grade-badge">11:45</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Dashboard -->
+        <section id="admin-dashboard" class="role-section section">
+            <header class="section-header">
+                <div>
+                    <h1>Admin Boshqaruv</h1>
+                    <p style="color: var(--text-dim);">Platforma infratuzilmasini nazorat qiling</p>
+                </div>
+                <div class="user-badge" id="admin-display"></div>
+            </header>
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <h3>FOYDALANUVCHILAR</h3>
+                    <div class="value">342</div>
+                </div>
+                <div class="stat-card purple">
+                    <h3>O'QITUVCHILAR</h3>
+                    <div class="value">28</div>
+                </div>
+                <div class="stat-card cyan">
+                    <h3>O'QUVCHILAR</h3>
+                    <div class="value">314</div>
+                </div>
+            </div>
+            <div class="admin-actions">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Tizim Foydalanuvchilari</h2>
+                    <button class="primary-btn" style="width: auto; padding: 10px 25px; border-radius: 12px;">+ Yangi
+                        Qo'shish</button>
+                </div>
+                <div class="subject-grid">
+                    <div class="subject-card">
+                        <div class="subject-info">
+                            <strong>Saidazimxon Ismilo'v</strong>
+                            <p>Bosh Administrator • @1</p>
+                        </div>
+                        <div class="grade-badge">Admin</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-info">
+                            <strong>Jasurbek Mavlonov</strong>
+                            <p>Matematika O'qituvchisi • @teacher_j</p>
+                        </div>
+                        <div class="grade-badge">Teacher</div>
+                    </div>
+                    <div class="subject-card">
+                        <div class="subject-info">
+                            <strong>Malika Ergasheva</strong>
+                            <p>9-A Sinf O'quvchisi • @malika_9</p>
+                        </div>
+                        <div class="grade-badge">Student</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
