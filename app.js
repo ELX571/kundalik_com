@@ -44,8 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value.trim();
         const role = document.querySelector('input[name="user-role"]:checked').value;
 
+        // Load users from localStorage or use default
+        const storedUsers = localStorage.getItem('kundalik_users');
+        const allUsers = storedUsers ? JSON.parse(storedUsers) : users;
+
         // Verify credentials & role
-        const user = users.find(u => u.username === username && u.password === password && u.role === role);
+        const user = allUsers.find(u => u.username === username && u.password === password && u.role === role);
 
         if (!user) {
             loginError.textContent = 'Username, Parol yoki Rol noto\'g\'ri!';
@@ -163,6 +167,136 @@ document.addEventListener('DOMContentLoaded', () => {
             window.verifyExtraPass();
         }
     });
+
+    // ========== ADMIN USER MANAGEMENT ==========
+
+    // Initialize users in localStorage if not exists
+    if (!localStorage.getItem('kundalik_users')) {
+        localStorage.setItem('kundalik_users', JSON.stringify(users));
+    }
+
+    // Load users from localStorage
+    function loadUsers() {
+        const stored = localStorage.getItem('kundalik_users');
+        return stored ? JSON.parse(stored) : users;
+    }
+
+    // Save users to localStorage
+    function saveUsers(usersList) {
+        localStorage.setItem('kundalik_users', JSON.stringify(usersList));
+    }
+
+    // Render users list in admin panel
+    function renderUsersList() {
+        const container = document.getElementById('users-list');
+        if (!container) return;
+
+        const allUsers = loadUsers();
+        container.innerHTML = '';
+
+        allUsers.forEach(user => {
+            const card = document.createElement('div');
+            card.className = 'subject-card';
+            card.innerHTML = `
+                <div class="subject-info">
+                    <strong>${user.fullName}</strong>
+                    <p>${user.typeDisplay} • @${user.username}</p>
+                </div>
+                <div class="grade-badge">${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Open modal
+    window.openAddUserModal = () => {
+        document.getElementById('add-user-modal').classList.add('active');
+        document.getElementById('add-user-form').reset();
+        document.getElementById('add-user-error').classList.remove('show');
+        document.getElementById('add-user-error').textContent = '';
+    };
+
+    // Close modal
+    window.closeAddUserModal = () => {
+        document.getElementById('add-user-modal').classList.remove('active');
+    };
+
+    // Add user button listener
+    const addUserBtn = document.getElementById('add-user-btn');
+    if (addUserBtn) {
+        addUserBtn.addEventListener('click', openAddUserModal);
+    }
+
+    // Form submission
+    const addUserForm = document.getElementById('add-user-form');
+    if (addUserForm) {
+        addUserForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('new-username').value.trim().toLowerCase();
+            const password = document.getElementById('new-password').value.trim();
+            const firstName = document.getElementById('new-firstname').value.trim();
+            const lastName = document.getElementById('new-lastname').value.trim();
+            const middleName = document.getElementById('new-middlename').value.trim().toLowerCase();
+            const birthDate = document.getElementById('new-birthdate').value.trim();
+            const role = document.querySelector('input[name="new-user-role"]:checked').value;
+            const errorDiv = document.getElementById('add-user-error');
+
+            // Validation (matching Python logic)
+            if (password.length !== 4 || !/^\d{4}$/.test(password)) {
+                errorDiv.textContent = '( ERROR ) Parol 4 ta raqamdan iborat bo\'lishi kerak!';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (birthDate.length !== 10 || !/^\d{2}\.\d{2}\.\d{4}$/.test(birthDate)) {
+                errorDiv.textContent = '( ERROR ) Tug\'ilgan sana noto\'g\'ri! (DD.MM.YYYY formatida kiriting)';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            if (!middleName.endsWith('ovich') && !middleName.endsWith('ovna')) {
+                errorDiv.textContent = '( ERROR ) Otasining ismi \'ovich\' yoki \'ovna\' bilan tugashi shart!';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            // Create new user
+            const allUsers = loadUsers();
+            const newId = allUsers.length > 0 ? Math.max(...allUsers.map(u => u.id)) + 1 : 1;
+
+            // Capitalize first letter of first and last name
+            const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+            const capitalizedLastName = lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase();
+            const fullName = `${capitalizedFirstName} ${capitalizedLastName}`;
+
+            const newUser = {
+                id: newId,
+                username: username,
+                password: password,
+                role: role,
+                fullName: fullName,
+                typeDisplay: role === 'teacher' ? 'O\'qituvchi' : 'O\'quvchi',
+                firstName: capitalizedFirstName,
+                lastName: capitalizedLastName,
+                middleName: middleName,
+                birthDate: birthDate
+            };
+
+            allUsers.push(newUser);
+            saveUsers(allUsers);
+            renderUsersList();
+            closeAddUserModal();
+
+            // Success feedback
+            alert(`✅ ${role === 'teacher' ? 'O\'qituvchi' : 'O\'quvchi'} ${fullName} muvaffaqiyatli qo'shildi!`);
+        });
+    }
+
+    // Render users list on admin dashboard load
+    if (document.getElementById('users-list')) {
+        renderUsersList();
+    }
 });
 
 // Add keyframes for shake

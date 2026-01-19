@@ -258,10 +258,11 @@
             <div class="admin-actions">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <h2>Tizim Foydalanuvchilari</h2>
-                    <button class="primary-btn" style="width: auto; padding: 10px 25px; border-radius: 12px;">+ Yangi
+                    <button id="add-user-btn" class="primary-btn"
+                        style="width: auto; padding: 10px 25px; border-radius: 12px;">+ Yangi
                         Qo'shish</button>
                 </div>
-                <div class="subject-grid">
+                <div class="subject-grid" id="users-list">
                     <div class="subject-card">
                         <div class="subject-info">
                             <strong>Saidazimxon Ismilo'v</strong>
@@ -286,6 +287,58 @@
                 </div>
             </div>
         </section>
+
+        <!-- Add User Modal -->
+        <div id="add-user-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Yangi Foydalanuvchi Qo'shish</h2>
+                    <button class="close-modal" onclick="closeAddUserModal()">&times;</button>
+                </div>
+                <form id="add-user-form">
+                    <div class="role-selector" style="margin-bottom: 1.5rem;">
+                        <label class="role-option">
+                            <input type="radio" name="new-user-role" value="teacher" checked>
+                            <div class="role-box">O'qituvchi</div>
+                        </label>
+                        <label class="role-option">
+                            <input type="radio" name="new-user-role" value="student">
+                            <div class="role-box">O'quvchi</div>
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="new-username" placeholder=" " required>
+                        <label for="new-username">Username</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="new-password" placeholder=" " maxlength="4" required>
+                        <label for="new-password">Parol (4 ta raqam)</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="new-firstname" placeholder=" " required>
+                        <label for="new-firstname">Ism</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="new-lastname" placeholder=" " required>
+                        <label for="new-lastname">Familiya</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="new-middlename" placeholder=" " required>
+                        <label for="new-middlename">Otasining ismi (ovich/ovna)</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="new-birthdate" placeholder=" " maxlength="10" required>
+                        <label for="new-birthdate">Tug'ilgan sana (DD.MM.YYYY)</label>
+                    </div>
+                    <div id="add-user-error" class="error-text"></div>
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="primary-btn" style="flex: 1;">Saqlash</button>
+                        <button type="button" class="primary-btn" style="flex: 1; background: var(--card-bg);"
+                            onclick="closeAddUserModal()">Bekor qilish</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <script src="app.js"></script>
