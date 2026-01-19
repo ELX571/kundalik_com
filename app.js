@@ -250,8 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Command handler
     const commandInput = document.getElementById('admin-command-input');
     const commandOutput = document.getElementById('command-output');
-    const usersDisplay = document.getElementById('users-display');
-    const usersListTerminal = document.getElementById('users-list-terminal');
+    // REMOVED: usersDisplay, usersListTerminal (replaced by modal)
 
     if (commandInput) {
         commandInput.addEventListener('keyup', (e) => {
@@ -292,20 +291,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function executeCommand(cmd) {
         commandOutput.innerHTML = '';
-        usersDisplay.style.display = 'none';
 
         if (cmd === 1) {
             // O'qituvchi qo'shish
             commandOutput.innerHTML = '<div class="success">--- O\'qituvchi qo\'shish ---</div>';
             setTimeout(() => {
-                document.querySelector('input[name="new-user-role"][value="teacher"]').checked = true;
+                const teacherRadio = document.querySelector('input[name="new-user-role"][value="teacher"]');
+                if (teacherRadio) teacherRadio.checked = true;
                 openAddUserModal();
             }, 300);
         } else if (cmd === 2) {
             // O'quvchi qo'shish
             commandOutput.innerHTML = '<div class="success">--- O\'quvchi qo\'shish ---</div>';
             setTimeout(() => {
-                document.querySelector('input[name="new-user-role"][value="student"]').checked = true;
+                const studentRadio = document.querySelector('input[name="new-user-role"][value="student"]');
+                if (studentRadio) studentRadio.checked = true;
                 openAddUserModal();
             }, 300);
         } else if (cmd === 3) {
@@ -324,20 +324,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function listUsersTerminal() {
         const allUsers = loadUsers();
-        usersDisplay.style.display = 'block';
-        usersListTerminal.innerHTML = '';
+        let content = '';
 
         if (allUsers.length === 0) {
-            usersListTerminal.innerHTML = '<div class="user-line">Foydalanuvchilar mavjud emas.</div>';
-            return;
+            content = '<div class="user-line">Foydalanuvchilar mavjud emas.</div>';
+        } else {
+            allUsers.forEach(user => {
+                content += `<div class="user-line">ID: ${user.id} | ${user.role.toUpperCase()} | ${user.fullName} (@${user.username})</div>`;
+            });
         }
 
-        allUsers.forEach(user => {
-            const userLine = document.createElement('div');
-            userLine.className = 'user-line';
-            userLine.textContent = `ID: ${user.id} | ${user.role.toUpperCase()} | ${user.fullName} (@${user.username})`;
-            usersListTerminal.appendChild(userLine);
-        });
+        showResultModal('--- Barcha Foydalanuvchilar ---', content, 'modal-admin');
     }
 
     // Open modal
@@ -423,8 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== STUDENT CLI COMMAND SYSTEM ==========
     const studentCommandInput = document.getElementById('student-command-input');
     const studentCommandOutput = document.getElementById('student-command-output');
-    const studentDataDisplay = document.getElementById('student-data-display');
-    const studentDataContent = document.getElementById('student-data-content');
+    // REMOVED: studentDataDisplay, studentDataContent (replaced by modal)
 
     if (studentCommandInput) {
         studentCommandInput.addEventListener('keyup', (e) => {
@@ -462,38 +458,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function executeStudentCommand(cmd) {
         studentCommandOutput.innerHTML = '';
-        studentDataDisplay.style.display = 'none';
-        const studentDataTitle = document.getElementById('student-data-title');
+        let content = '';
 
         if (cmd === 1) {
             // Baholarni ko'rish
-            studentDataDisplay.style.display = 'block';
-            studentDataTitle.textContent = '--- Mening Baholarim ---';
-            studentDataContent.innerHTML = '';
-
             gradesMock.forEach(item => {
-                const line = document.createElement('div');
-                line.className = 'user-line';
-                line.textContent = `${item.name}: ${item.grade} (${item.status})`;
-                studentDataContent.appendChild(line);
+                content += `<div class="user-line">${item.name}: ${item.grade} (${item.status})</div>`;
             });
+            showResultModal('--- Mening Baholarim ---', content, 'modal-student');
         } else if (cmd === 2) {
             // Qo'shimcha darslar
-            studentDataDisplay.style.display = 'block';
-            studentDataTitle.textContent = '--- Qo\'shimcha Darslar ---';
-            studentDataContent.innerHTML = '';
-
             const extraClasses = [
                 { name: 'Python Programming', time: '18:00', students: 'Saidazimxon Ismoilov' },
                 { name: 'IELTS Foundation', time: '16:30', students: 'Saidazimxon Ismoilov' },
                 { name: 'Algoritmlash', time: '10:00', students: 'Saidazimxon Ismoilov' }
             ];
             extraClasses.forEach(cls => {
-                const line = document.createElement('div');
-                line.className = 'user-line';
-                line.textContent = `${cls.name} | ${cls.time} | O'qituvchi: ${cls.students}`;
-                studentDataContent.appendChild(line);
+                content += `<div class="user-line">${cls.name} | ${cls.time} | O'qituvchi: ${cls.students}</div>`;
             });
+            showResultModal('--- Qo\'shimcha Darslar ---', content, 'modal-student');
         } else if (cmd === 3) {
             // O'rtacha ball
             const avg = (gradesMock.reduce((sum, g) => sum + g.grade, 0) / gradesMock.length).toFixed(2);
@@ -509,8 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== TEACHER CLI COMMAND SYSTEM ==========
     const teacherCommandInput = document.getElementById('teacher-command-input');
     const teacherCommandOutput = document.getElementById('teacher-command-output');
-    const teacherDataDisplay = document.getElementById('teacher-data-display');
-    const teacherDataContent = document.getElementById('teacher-data-content');
+    // REMOVED: teacherDataDisplay, teacherDataContent (replaced by modal)
 
     if (teacherCommandInput) {
         teacherCommandInput.addEventListener('keyup', (e) => {
@@ -548,39 +530,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function executeTeacherCommand(cmd) {
         teacherCommandOutput.innerHTML = '';
-        teacherDataDisplay.style.display = 'none';
-        const teacherDataTitle = document.getElementById('teacher-data-title');
+        let content = '';
 
         if (cmd === 1) {
             // Bugungi darslar
-            teacherDataDisplay.style.display = 'block';
-            teacherDataTitle.textContent = '--- Bugungi Dars Jadvali ---';
-            teacherDataContent.innerHTML = '';
-
             const lessons = [
                 { name: 'Matematika (9-A)', time: '08:30', students: 20 },
                 { name: 'Matematika (10-B)', time: '10:00', students: 18 },
                 { name: 'Algebra (11-C)', time: '11:45', students: 22 }
             ];
             lessons.forEach(lesson => {
-                const line = document.createElement('div');
-                line.className = 'user-line';
-                line.textContent = `${lesson.time} | ${lesson.name} | ${lesson.students} o'quvchi`;
-                teacherDataContent.appendChild(line);
+                content += `<div class="user-line">${lesson.time} | ${lesson.name} | ${lesson.students} o'quvchi</div>`;
             });
+            showResultModal('--- Bugungi Dars Jadvali ---', content, 'modal-teacher');
         } else if (cmd === 2) {
             // Sinflar ro'yxati
-            teacherDataDisplay.style.display = 'block';
-            teacherDataTitle.textContent = '--- Sinflar Ro\'yxati ---';
-            teacherDataContent.innerHTML = '';
-
             const classes = ['9-A (20 o\'quvchi)', '10-B (18 o\'quvchi)', '11-C (22 o\'quvchi)', '9-B (19 o\'quvchi)', '10-A (21 o\'quvchi)'];
             classes.forEach(cls => {
-                const line = document.createElement('div');
-                line.className = 'user-line';
-                line.textContent = cls;
-                teacherDataContent.appendChild(line);
+                content += `<div class="user-line">${cls}</div>`;
             });
+            showResultModal('--- Sinflar Ro\'yxati ---', content, 'modal-teacher');
         } else if (cmd === 3) {
             // Statistika
             teacherCommandOutput.innerHTML = '<div class="success">📊 Sinflar: 5 | O\'rtacha o\'zlashtirish: 89% | Yangi baholar: 42</div>';
@@ -591,6 +560,28 @@ document.addEventListener('DOMContentLoaded', () => {
             teacherCommandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
         }
     }
+
+    // ========== MODAL UTILITIES ==========
+    window.showResultModal = function (title, content, themeClass) {
+        const modal = document.getElementById('result-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const modalContent = modal.querySelector('.modal-content');
+
+        modalTitle.textContent = title;
+        modalBody.innerHTML = content;
+
+        // Clear old themes
+        modalContent.classList.remove('modal-student', 'modal-teacher', 'modal-admin');
+        if (themeClass) modalContent.classList.add(themeClass);
+
+        modal.classList.add('active');
+    };
+
+    window.closeResultModal = function () {
+        const modal = document.getElementById('result-modal');
+        modal.classList.remove('active');
+    };
 });
 
 // Add keyframes for shake

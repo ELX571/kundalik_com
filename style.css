@@ -283,6 +283,7 @@ body.light-mode .role-option input:checked+.role-box {
     pointer-events: none;
     transition: var(--transition-smooth);
     font-weight: 500;
+    z-index: 10;
 }
 
 .input-group input:focus,
@@ -296,9 +297,10 @@ body.light-mode .role-option input:checked+.role-box {
     top: 0;
     font-size: 0.8rem;
     background: var(--card-bg);
-    padding: 0 8px;
-    transform: translateY(-50%) translateX(10px);
+    padding: 0 10px;
+    transform: translateY(-50%) translateX(5px);
     color: var(--accent-blue);
+    z-index: 20;
 }
 
 .error-text {
@@ -327,12 +329,14 @@ body.light-mode .role-option input:checked+.role-box {
     border: none;
     border-radius: 16px;
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
     transition: var(--transition-smooth);
-    box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+    box-shadow: 0 8px 15px rgba(0, 122, 255, 0.2);
     overflow: hidden;
     z-index: 1;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.5px;
 }
 
 .primary-btn::before {
@@ -1122,4 +1126,58 @@ body.light-mode .role-option input:checked+.role-box {
     animation: none;
     box-shadow: 0 0 30px rgba(255, 159, 10, 0.8), 0 0 60px rgba(255, 69, 58, 0.4);
     border-color: #ff453a;
+}
+
+/* Result Modal Specifics */
+.result-modal-content {
+    max-width: 800px;
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(25px);
+    background: rgba(10, 10, 10, 0.85);
+    animation: modal-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.result-modal-content .modal-header h2 {
+    font-family: 'Courier New', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+}
+
+/* Modal Themes */
+.modal-student h2 {
+    color: #32d74b;
+}
+
+.modal-teacher h2 {
+    color: #ff9f0a;
+}
+
+.modal-admin h2 {
+    color: var(--accent-cyan);
+}
+
+.modal-student {
+    border-color: rgba(50, 215, 75, 0.3);
+}
+
+.modal-teacher {
+    border-color: rgba(255, 159, 10, 0.3);
+}
+
+.modal-admin {
+    border-color: rgba(0, 122, 255, 0.3);
 }

@@ -86,10 +86,8 @@
                         <div class="input-group">
                             <input type="password" id="password" placeholder=" " required>
                             <label for="password">Parol</label>
-                            <div class="glow"></div>
-                        </div>
-                        <div id="login-error" class="error-text"></div>
-                        <button type="submit" class="primary-btn">Tizimga Kirish</button>
+                            <div id="login-error" class="error-text"></div>
+                            <button type="submit" class="primary-btn">Tizimga Kirish</button>
                     </form>
                 </div>
             </div>
@@ -133,11 +131,6 @@
                 </div>
             </div>
 
-            <!-- Student Data Display -->
-            <div id="student-data-display" class="users-display student-data-theme" style="display: none;">
-                <h2 id="student-data-title">--- Student Data ---</h2>
-                <div id="student-data-content" class="terminal-list-container"></div>
-            </div>
         </section>
 
         <!-- Teacher Dashboard -->
@@ -178,11 +171,6 @@
                 </div>
             </div>
 
-            <!-- Teacher Data Display -->
-            <div id="teacher-data-display" class="users-display teacher-data-theme" style="display: none;">
-                <h2 id="teacher-data-title">--- Teacher Data ---</h2>
-                <div id="teacher-data-content" class="terminal-list-container"></div>
-            </div>
         </section>
 
         <!-- Admin Dashboard -->
@@ -222,11 +210,6 @@
                 </div>
             </div>
 
-            <!-- Users List (for command 3) -->
-            <div id="users-display" class="users-display admin-data-theme" style="display: none;">
-                <h2 id="admin-data-title">--- Barcha Foydalanuvchilar ---</h2>
-                <div id="users-list-terminal" class="terminal-list-container"></div>
-            </div>
         </section>
 
         <!-- Add User Modal -->
@@ -281,6 +264,21 @@
             </div>
         </div>
     </main>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content result-modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">--- Result ---</h2>
+                <button class="close-modal" onclick="closeResultModal()">&times;</button>
+            </div>
+            <div id="modal-body" class="terminal-list-container"></div>
+            <div class="modal-footer" style="text-align: center; margin-top: 2rem;">
+                <button class="primary-btn" onclick="closeResultModal()"
+                    style="padding: 0.8rem 2rem; width: auto;">Yopish</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="main-footer">
         <div class="footer-content">
