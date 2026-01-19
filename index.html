@@ -237,54 +237,41 @@
             <header class="section-header">
                 <div>
                     <h1>Admin Boshqaruv</h1>
-                    <p style="color: var(--text-dim);">Platforma infratuzilmasini nazorat qiling</p>
+                    <p style="color: var(--text-dim);">Buyruq raqamini kiriting</p>
                 </div>
                 <div class="user-badge" id="admin-display"></div>
             </header>
-            <div class="stats-grid">
-                <div class="stat-card blue">
-                    <h3>FOYDALANUVCHILAR</h3>
-                    <div class="value">342</div>
+
+            <!-- Command Menu -->
+            <div class="terminal-container">
+                <div class="terminal-header">
+                    <div class="terminal-title">Admin Panel - Command Mode</div>
+                    <div class="terminal-dots">
+                        <span></span><span></span><span></span>
+                    </div>
                 </div>
-                <div class="stat-card purple">
-                    <h3>O'QITUVCHILAR</h3>
-                    <div class="value">28</div>
-                </div>
-                <div class="stat-card cyan">
-                    <h3>O'QUVCHILAR</h3>
-                    <div class="value">314</div>
+                <div class="terminal-body">
+                    <div class="command-menu">
+                        <div class="menu-title">Mavjud Buyruqlar:</div>
+                        <div class="menu-item"><span class="cmd-num">1</span> → O'qituvchi qo'shish</div>
+                        <div class="menu-item"><span class="cmd-num">2</span> → O'quvchi qo'shish</div>
+                        <div class="menu-item"><span class="cmd-num">3</span> → Foydalanuvchilar ro'yxati</div>
+                        <div class="menu-item"><span class="cmd-num">0</span> → Chiqish</div>
+                    </div>
+
+                    <div class="command-input-group">
+                        <span class="prompt">Buyruq kodini kiriting >>></span>
+                        <input type="text" id="admin-command-input" class="terminal-input" maxlength="1" autofocus>
+                    </div>
+
+                    <div id="command-output" class="command-output"></div>
                 </div>
             </div>
-            <div class="admin-actions">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <h2>Tizim Foydalanuvchilari</h2>
-                    <button id="add-user-btn" class="primary-btn"
-                        style="width: auto; padding: 10px 25px; border-radius: 12px;">+ Yangi
-                        Qo'shish</button>
-                </div>
-                <div class="subject-grid" id="users-list">
-                    <div class="subject-card">
-                        <div class="subject-info">
-                            <strong>Saidazimxon Ismilo'v</strong>
-                            <p>Bosh Administrator • @1</p>
-                        </div>
-                        <div class="grade-badge">Admin</div>
-                    </div>
-                    <div class="subject-card">
-                        <div class="subject-info">
-                            <strong>Jasurbek Mavlonov</strong>
-                            <p>Matematika O'qituvchisi • @teacher_j</p>
-                        </div>
-                        <div class="grade-badge">Teacher</div>
-                    </div>
-                    <div class="subject-card">
-                        <div class="subject-info">
-                            <strong>Malika Ergasheva</strong>
-                            <p>9-A Sinf O'quvchisi • @malika_9</p>
-                        </div>
-                        <div class="grade-badge">Student</div>
-                    </div>
-                </div>
+
+            <!-- Users List (for command 3) -->
+            <div id="users-display" class="users-display" style="display: none;">
+                <h2>--- Barcha Foydalanuvchilar ---</h2>
+                <div id="users-list-terminal"></div>
             </div>
         </section>
 

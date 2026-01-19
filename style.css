@@ -632,3 +632,182 @@ body.light-mode .role-option input:checked+.role-box {
     color: var(--error-red);
     transform: rotate(90deg);
 }
+
+/* Terminal Styles for Admin CLI */
+.terminal-container {
+    background: #1a1a1a;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Courier New', monospace;
+    margin-bottom: 2rem;
+}
+
+.terminal-header {
+    background: #2d2d2d;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.terminal-title {
+    color: #a1a1a1;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #555;
+}
+
+.terminal-dots span:nth-child(1) {
+    background: #ff5f56;
+}
+
+.terminal-dots span:nth-child(2) {
+    background: #ffbd2e;
+}
+
+.terminal-dots span:nth-child(3) {
+    background: #27c93f;
+}
+
+.terminal-body {
+    padding: 2rem;
+    background: #0c0c0c;
+    min-height: 400px;
+}
+
+.command-menu {
+    background: rgba(0, 122, 255, 0.05);
+    border: 1px solid rgba(0, 122, 255, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.menu-title {
+    color: var(--accent-cyan);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.menu-item {
+    color: #e0e0e0;
+    padding: 8px 0;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cmd-num {
+    background: var(--accent-blue);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 800;
+    min-width: 30px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+}
+
+.command-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+}
+
+.prompt {
+    color: var(--accent-purple);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.terminal-input {
+    background: #1a1a1a;
+    border: 2px solid var(--accent-blue);
+    color: var(--success-green);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    width: 60px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.terminal-input:focus {
+    box-shadow: 0 0 20px rgba(0, 122, 255, 0.5);
+    border-color: var(--accent-cyan);
+}
+
+.command-output {
+    margin-top: 2rem;
+    color: #e0e0e0;
+    font-size: 1rem;
+    line-height: 1.8;
+    min-height: 50px;
+}
+
+.command-output .success {
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+.command-output .error {
+    color: var(--error-red);
+    font-weight: 600;
+}
+
+.users-display {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--card-border);
+    margin-top: 2rem;
+}
+
+.users-display h2 {
+    color: var(--accent-cyan);
+    font-family: 'Courier New', monospace;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+#users-list-terminal {
+    font-family: 'Courier New', monospace;
+    color: #e0e0e0;
+    line-height: 2;
+}
+
+#users-list-terminal .user-line {
+    padding: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition-smooth);
+}
+
+#users-list-terminal .user-line:hover {
+    background: rgba(0, 122, 255, 0.1);
+    padding-left: 15px;
+}

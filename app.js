@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ========== ADMIN USER MANAGEMENT ==========
+    // ========== ADMIN CLI COMMAND SYSTEM ==========
 
     // Initialize users in localStorage if not exists
     if (!localStorage.getItem('kundalik_users')) {
@@ -186,25 +186,69 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('kundalik_users', JSON.stringify(usersList));
     }
 
-    // Render users list in admin panel
-    function renderUsersList() {
-        const container = document.getElementById('users-list');
-        if (!container) return;
+    // Command handler
+    const commandInput = document.getElementById('admin-command-input');
+    const commandOutput = document.getElementById('command-output');
+    const usersDisplay = document.getElementById('users-display');
+    const usersListTerminal = document.getElementById('users-list-terminal');
 
+    if (commandInput) {
+        commandInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = parseInt(commandInput.value);
+                executeCommand(cmd);
+                commandInput.value = '';
+            }
+        });
+    }
+
+    function executeCommand(cmd) {
+        commandOutput.innerHTML = '';
+        usersDisplay.style.display = 'none';
+
+        if (cmd === 1) {
+            // O'qituvchi qo'shish
+            commandOutput.innerHTML = '<div class="success">--- O\'qituvchi qo\'shish ---</div>';
+            setTimeout(() => {
+                document.querySelector('input[name="new-user-role"][value="teacher"]').checked = true;
+                openAddUserModal();
+            }, 300);
+        } else if (cmd === 2) {
+            // O'quvchi qo'shish
+            commandOutput.innerHTML = '<div class="success">--- O\'quvchi qo\'shish ---</div>';
+            setTimeout(() => {
+                document.querySelector('input[name="new-user-role"][value="student"]').checked = true;
+                openAddUserModal();
+            }, 300);
+        } else if (cmd === 3) {
+            // Foydalanuvchilar ro'yxati
+            listUsersTerminal();
+        } else if (cmd === 0) {
+            // Chiqish
+            commandOutput.innerHTML = '<div class="success">Dastur yakunlandi!</div>';
+            setTimeout(() => {
+                document.getElementById('logout-btn').click();
+            }, 1000);
+        } else {
+            commandOutput.innerHTML = '<div class="error">Bunday buyruq mavjud emas!</div>';
+        }
+    }
+
+    function listUsersTerminal() {
         const allUsers = loadUsers();
-        container.innerHTML = '';
+        usersDisplay.style.display = 'block';
+        usersListTerminal.innerHTML = '';
+
+        if (allUsers.length === 0) {
+            usersListTerminal.innerHTML = '<div class="user-line">Foydalanuvchilar mavjud emas.</div>';
+            return;
+        }
 
         allUsers.forEach(user => {
-            const card = document.createElement('div');
-            card.className = 'subject-card';
-            card.innerHTML = `
-                <div class="subject-info">
-                    <strong>${user.fullName}</strong>
-                    <p>${user.typeDisplay} • @${user.username}</p>
-                </div>
-                <div class="grade-badge">${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</div>
-            `;
-            container.appendChild(card);
+            const userLine = document.createElement('div');
+            userLine.className = 'user-line';
+            userLine.textContent = `ID: ${user.id} | ${user.role.toUpperCase()} | ${user.fullName} (@${user.username})`;
+            usersListTerminal.appendChild(userLine);
         });
     }
 
@@ -219,13 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close modal
     window.closeAddUserModal = () => {
         document.getElementById('add-user-modal').classList.remove('active');
+        commandOutput.innerHTML = '';
     };
-
-    // Add user button listener
-    const addUserBtn = document.getElementById('add-user-btn');
-    if (addUserBtn) {
-        addUserBtn.addEventListener('click', openAddUserModal);
-    }
 
     // Form submission
     const addUserForm = document.getElementById('add-user-form');
@@ -285,17 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             allUsers.push(newUser);
             saveUsers(allUsers);
-            renderUsersList();
             closeAddUserModal();
 
-            // Success feedback
-            alert(`✅ ${role === 'teacher' ? 'O\'qituvchi' : 'O\'quvchi'} ${fullName} muvaffaqiyatli qo'shildi!`);
+            // Success feedback (matching Python output)
+            const roleText = role === 'teacher' ? 'teacher' : 'student';
+            commandOutput.innerHTML = `<div class="success">( SUCCESS ) ${roleText} ${fullName} qo'shildi (ID: ${newId})</div>`;
         });
-    }
-
-    // Render users list on admin dashboard load
-    if (document.getElementById('users-list')) {
-        renderUsersList();
     }
 });
 
