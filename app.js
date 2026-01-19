@@ -196,8 +196,24 @@ document.addEventListener('DOMContentLoaded', () => {
         commandInput.addEventListener('keyup', (e) => {
             if (e.key === 'Enter') {
                 const cmd = parseInt(commandInput.value);
+
+                // Visual feedback - flash effect
+                commandInput.classList.add('executing');
+                setTimeout(() => {
+                    commandInput.classList.remove('executing');
+                }, 300);
+
                 executeCommand(cmd);
                 commandInput.value = '';
+            }
+        });
+
+        // Add typing sound effect (visual)
+        commandInput.addEventListener('input', (e) => {
+            if (e.target.value) {
+                commandInput.style.color = 'var(--accent-cyan)';
+            } else {
+                commandInput.style.color = 'var(--success-green)';
             }
         });
     }

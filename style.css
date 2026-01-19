@@ -755,11 +755,46 @@ body.light-mode .role-option input:checked+.role-box {
     font-family: 'Courier New', monospace;
     outline: none;
     transition: var(--transition-smooth);
+    animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+
+    0%,
+    100% {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 10px rgba(0, 122, 255, 0.3);
+    }
+
+    50% {
+        border-color: var(--accent-cyan);
+        box-shadow: 0 0 25px rgba(100, 210, 255, 0.5);
+    }
 }
 
 .terminal-input:focus {
-    box-shadow: 0 0 20px rgba(0, 122, 255, 0.5);
+    animation: none;
+    box-shadow: 0 0 30px rgba(0, 122, 255, 0.8), 0 0 60px rgba(100, 210, 255, 0.4);
     border-color: var(--accent-cyan);
+    transform: scale(1.05);
+}
+
+.terminal-input.executing {
+    animation: execute-flash 0.3s ease;
+    background: rgba(50, 215, 75, 0.1);
+}
+
+@keyframes execute-flash {
+
+    0%,
+    100% {
+        background: #1a1a1a;
+    }
+
+    50% {
+        background: rgba(0, 122, 255, 0.3);
+        box-shadow: 0 0 40px rgba(0, 122, 255, 1);
+    }
 }
 
 .command-output {
@@ -770,14 +805,37 @@ body.light-mode .role-option input:checked+.role-box {
     min-height: 50px;
 }
 
+.command-output>div {
+    animation: fadeInUp 0.4s ease;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .command-output .success {
     color: var(--success-green);
     font-weight: 600;
+    background: rgba(50, 215, 75, 0.1);
+    border-left: 4px solid var(--success-green);
 }
 
 .command-output .error {
     color: var(--error-red);
     font-weight: 600;
+    background: rgba(255, 69, 58, 0.1);
+    border-left: 4px solid var(--error-red);
 }
 
 .users-display {
